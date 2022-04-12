@@ -7,12 +7,18 @@ from chatterbot.trainers import ListTrainer  # importing neccasary packages
 from textblob import TextBlob
 from nltk.corpus import wordnet
 import tkinter as tk
+import wikipediaapi
+from googletrans import Translator
 
 nltk.download('omw-1.4')
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('maxent_ne_chunker')
 nltk.download('words')
+
+wikiAPI = wikipediaapi.Wikipedia('en')
+translator = Translator()
+
 sports_bot = ChatBot(name='sportBot', read_only=False,
                      logic_adapters=['chatterbot.logic.BestMatch'])
 # intializing the both
@@ -72,19 +78,18 @@ football_talk = ["Fun fact about football", "The NFL had its first event in 1920
                  "You can score a touchdown by taking the ball to the oppposite endzone for 6 points, and an addition 1 point for the field goal", "Is tackling allowed in football?",
                  "Usually yes, football is a contact sport and most leagues allow tackling as long as it's within bounds", "How do players stay protected?", "Usually players wear protective gear such as helmets and shoulder pads",
                  "What's the most successful team in the NFL?", "The Steelers and the Patriots both have 6 Super-Bowl wins, placing them at the top"]
-# POS tag
 
+# POS tag
 
 def PosTag(sent):
     list = []
-    # for i in sent:
     tokens = nltk.word_tokenize(sent)
     newtokens = nltk.pos_tag(tokens)
     print(newtokens)
     list.append(newtokens)
     return newtokens
-# NER
 
+# NER
 
 def NameErrorRec(sent):
     words = nltk.word_tokenize(sent)
@@ -99,26 +104,16 @@ def NameErrorRec(sent):
         else:
             print("No named recognition")
             isName = False
-            #entities.append(' '.join(c[0] for c in i))
-            # labels.append(i.label())
     return isName
 
-# for i in range(len(i)):
-   # data=[entities[i],labels[i]]
-   # head=["Entities","Labels"]
-#print(tabulate(data,headers=head, tablefmt="grid"))
-
-    #words= nltk.pos_tag(sent)
-
 # Sentiment Analysis
-
 
 def Sentiment(sent):
     blob = TextBlob(sent)
     sentiment = blob.sentiment.polarity
     return sentiment
-# Synonym Recognition
 
+# Synonym Recognition
 
 def Synonym(sent):
     syn = list()
@@ -137,7 +132,22 @@ def func(text):
     PosTag(question)
     print("User sentiment:", Sentiment(question))
     NameErrorRec(question)
-    # Synonym(question)
+    
+    tagged = PosTag(question)
+
+    if(tagged):
+        for i in tagged:
+            if i[1] == 'NNP' or i[1] == 'NNS' or i[1] == 'NN':
+                wikiPage = wikiAPI.page(i[0])
+                responses.append("\n\nWikipedia definition of " + i[0] + ": " + "...")
+                responses.append(wikiPage.summary[0:200])
+
+                translation = translator.translate(i[0], src='en', dest='es')
+                responses.append("\nTranslated to spanish (" + i[0] + "): " + "..." )
+                responses.append(translation.text)
+
+    
+    label.config(text=responses)   
 
 
 root = tk.Tk()

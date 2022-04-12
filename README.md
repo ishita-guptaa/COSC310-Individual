@@ -1,12 +1,13 @@
 # SportsBot
 
-This is a sportsBot! A bot that allows the user to gain knowledge on sports topics ranging between hockey, baseball, and basketball! 
+This is a sportsBot! A bot that allows the user to gain knowledge on sports topics ranging between hockey, baseball, football, and basketball! 
 
 Instructions:
 1. Make sure Python and VsCode are both installed.
-2. Install required libraries (Chatterbot). To install the libraries, go on your terminal (cmd) and type in "pip install chatterbot" and then "pip install chatterbot_corpus".
-3. Clone the repo to your computer using git clone https://github.com/310-Group2/convo_agent.
-4. Once it has been cloned, open up VS Code and run!
+2. Install required libraries (Chatterbot). To install the libraries, go on your terminal (cmd) and type in `pip install chatterbot` and then `pip install chatterbot_corpus`.
+3. Install the wikipedia and google translate APIs by typing `pip install Wikipedia-API` and `pip install googletrans==4.0.0-rc1`
+4. Clone the repo to your computer using git clone https://github.com/310-Group2/convo_agent.
+5. Once it has been cloned, open up VS Code and run!
 
 
 Explaining the code:
@@ -20,6 +21,7 @@ In the ChatBot function, there is a parameter read_only, which is a boolean expr
 
 
 In our case, we had a small talk portion which dealt with common greetings (Hello, how are you, etc.) and 3 sports topics (Basketball, Hockey, Baseball).
+Updating for A3, more topics were added.
 After the strings were made, in order for the bot to learn, we had to add a listTrainer (another function from the chatterbot libraray), which allows it to learn from the string arrays we give it.
 
 ## Project Description
@@ -56,4 +58,10 @@ We have also added extra topics for our agent's repertoire and our agent can giv
 * Our Named Entity Recognition can be extracted too for an API. This feature would help the bot analyze which parts of a text are named entities which increases efficiency.
 * The whole SportsBot can be extracted as an API and used for sports trivia purposes.
 
+## List of features added in Individual Project
 
+* **Google Translate API -** This API enables the chatbot to translate parts of the conversation, particularly nouns, into spanish.
+
+* **Wikipedia API -** I used this API to enable the chatbot to extract knowledge of definitions of nouns from the users questions and display them.
+
+Both these APIs help increase the knowledge our SportsBot provides.
